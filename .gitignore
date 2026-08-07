@@ -1,0 +1,60 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### Security & JWT Keys ###
+# JWT 서명이나 SSL 등에 사용되는 키/인증서 파일
+*.jks
+*.pem
+*.p12
+*.pfx
+*.key
+
+### Environments & Secrets ###
+# DB 비밀번호, JWT 시크릿 문자열 등이 포함된 로컬 환경 변수 파일
+.env
+.env.*
+application-secret.yml
+application-secret.properties
+application-local.yml
+application-local.properties
+

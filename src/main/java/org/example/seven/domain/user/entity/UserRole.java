@@ -1,0 +1,6 @@
+package org.example.seven.domain.user.entity;
+
+public enum UserRole {
+    ADMIN,
+    USER
+}

@@ -5,11 +5,15 @@ import org.example.seven.domain.user.dto.UserRequest;
 import org.example.seven.domain.user.entity.UserEntity;
 import org.example.seven.domain.user.entity.UserRole;
 import org.example.seven.domain.user.repository.UserRepository;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -56,5 +60,29 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
 
         return ProfileResponse.from(user);
+    }
+
+    /**
+     * AuthenticatonProvider 가 이 메서드를 호출함
+     *
+     * 클라이언트가 입력한 username을 기반으로 DB에서 사용자 정보를 조회
+     * 조회된 데이터를 Spring Security 규격인 UserDetails 객체로 변환하여 반환
+     * (이후 Security의 AuthenticationProvider가 이 객체의 정보와 입력된 비밀번호를 비교하여 인증을 수행)
+     *
+     * @param username 로그인을 시도하는 사용자 아이디
+     * @return Spring Security가 이해할 수 있는 사용자 정보 (UserDetails)
+     * @throws UsernameNotFoundException 사용자를 찾을 수 없을 때 발생
+     */
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        UserEntity user = userRepository.findByName(username)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 없습니다."));
+
+        return User.builder()
+                .username(user.getName())
+                .password(user.getPassword())
+                .roles(user.getRole().name())
+                .build();
     }
 }
